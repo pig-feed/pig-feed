@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<title>大猪国库 · 国家金融中心</title>
+		<style>
+			body {
+			    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+			    background: radial-gradient(circle at top, #1a0b2e 0%, #0b0f19 70%);
+			    color: #fff;
+			    margin: 0;
+			    padding: 0;
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    min-height: 100vh;
+			}
+
+			.header {
+			    width: 100%;
+			    background: rgba(20, 26, 43, 0.95);
+			    border-bottom: 2px solid #ffd700;
+			    padding: 20px 0;
+			    text-align: center;
+			    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+			}
+			.header h1 {
+			    margin: 0;
+			    font-size: 38px;
+			    font-weight: 900;
+			    letter-spacing: 3px;
+			    background: linear-gradient(135deg, #fff, #ffd700);
+			    -webkit-background-clip: text;
+			    -webkit-text-fill-color: transparent;
+			    text-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+			}
+
+			.container {
+			    width: 92%;
+			    max-width: 600px;
+			    margin-top: 40px;
+			}
+
+			/* 巨幅超大多功能卡片 */
+			.card {
+			    background: rgba(20, 26, 43, 0.9);
+			    border: 2px solid #ffd700;
+			    border-radius: 25px;
+			    padding: 35px;
+			    margin-bottom: 20px;
+			    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 215, 0, 0.05);
+			}
+
+			.card-title {
+			    font-size: 18px;
+			    font-weight: bold;
+			    color: #ffd700;
+			    margin-bottom: 20px;
+			    text-transform: uppercase;
+			    letter-spacing: 1px;
+			    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+			    padding-bottom: 10px;
+			}
+
+			/* 巨大的余额显示 */
+			.balance-display {
+			    font-size: 70px;
+			    font-weight: 900;
+			    line-height: 1.1;
+			    color: #fff;
+			    text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+			    margin-bottom: 10px;
+			}
+			.balance-sub {
+			    font-size: 18px;
+			    color: #ffd700;
+			    font-weight: bold;
+			}
+
+			/* 超大输入框 */
+			.input-group {
+			    margin-bottom: 25px;
+			}
+			.input-group label {
+			    display: block;
+			    font-size: 16px;
+			    color: #aaa;
+			    margin-bottom: 10px;
+			    font-weight: 600;
+			}
+			.input-group input, .input-group select {
+			    width: 100%;
+			    padding: 20px;
+			    background: #0b0f19;
+			    border: 2px solid #333;
+			    border-radius: 15px;
+			    color: #fff;
+			    font-size: 24px;
+			    font-weight: bold;
+			    box-sizing: border-box;
+			    outline: none;
+			    transition: 0.2s;
+			}
+			.input-group input:focus, .input-group select:focus {
+			    border-color: #ffd700;
+			    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+			}
+
+			/* 巨型土豪金按钮 */
+			.btn {
+			    width: 100%;
+			    padding: 22px;
+			    background: linear-gradient(135deg, #ffd700, #f7b733);
+			    border: none;
+			    border-radius: 15px;
+			    color: #000;
+			    font-size: 28px;
+			    font-weight: 900;
+			    letter-spacing: 2px;
+			    cursor: pointer;
+			    margin-top: 10px;
+			    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+			    transition: 0.2s;
+			}
+			.btn:hover {
+			    transform: translateY(-2px);
+			    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+			}
+
+			.btn-danger {
+			    background: linear-gradient(135deg, #ff3b30, #cc0000);
+			    color: #fff;
+			    box-shadow: 0 10px 30px rgba(255, 59, 48, 0.4);
+			}
+			.btn-danger:hover {
+			    box-shadow: 0 15px 40px rgba(255, 59, 48, 0.6);
+			}
+
+			.btn-outline {
+			    background: transparent;
+			    border: 2px solid #ffd700;
+			    color: #ffd700;
+			    box-shadow: none;
+			}
+
+			/* 大表格 */
+			table {
+			    width: 100%;
+			    border-collapse: collapse;
+			    margin-top: 20px;
+			}
+			th, td {
+			    padding: 20px;
+			    text-align: left;
+			    border-bottom: 1px solid #333;
+			    font-size: 22px;
+			    font-weight: bold;
+			}
+			th {
+			    color: #ffd700;
+			    font-size: 18px;
+			}
+
+			.hidden { display: none !important; }
+
+			/* 巨型弹窗 */
+			.modal {
+			    display: none;
+			    position: fixed;
+			    top: 0; left: 0;
+			    width: 100%; height: 100%;
+			    background: rgba(0, 0, 0, 0.95);
+			    justify-content: center;
+			    align-items: center;
+			    z-index: 1000;
+			}
+			.modal-content {
+			    background: #141a2b;
+			    border: 3px solid #ffd700;
+			    border-radius: 20px;
+			    padding: 40px;
+			    width: 85%;
+			    max-width: 400px;
+			    text-align: center;
+			}
+			.modal-content h3 {
+			    margin: 0 0 20px 0;
+			    font-size: 32px;
+			    color: #ffd700;
+			}
+			.modal-content p {
+			    font-size: 22px;
+			    color: #fff;
+			    margin: 0 0 20px 0;
+			}
+			.modal-content button {
+			    width: 100%;
+			    padding: 15px;
+			    background: #ffd700;
+			    border: none;
+			    border-radius: 12px;
+			    color: #000;
+			    font-size: 20px;
+			    font-weight: 900;
+			    cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<h1>🐷 大猪国库</h1>
+		</div>
+
+		<div class="container">
+			<div id="loginBox" class="card">
+				<div class="card-title">安全认证</div>
+				<div class="input-group">
+					<label>请输入您的密钥</label>
+					<input type="password" id="loginKey" placeholder="••••••" />
+				</div>
+				<button class="btn" onclick="login()">开启国库</button>
+			</div>
+
+			<div id="userBox" class="hidden">
+				<div class="card">
+					<div class="card-title">我的账户</div>
+					<div class="balance-display" id="balance">0</div>
+					<div class="balance-sub">饲料币 (PFR Coin)</div>
+				</div>
+				<div class="card">
+					<div class="card-title">交易中心</div>
+					<div class="input-group">
+						<label>收款人</label>
+						<select id="transferTo"></select>
+					</div>
+					<div class="input-group">
+						<label>密码</label>
+						<input
+							type="password"
+							id="transferPwd"
+							placeholder="••••••"
+						/>
+					</div>
+					<div class="input-group">
+						<label>金额</label>
+						<input
+							type="number"
+							id="transferAmount"
+							placeholder="0"
+						/>
+					</div>
+					<button class="btn" onclick="doTransfer()">立即转账</button>
+					<button
+						class="btn btn-outline"
+						onclick="logout()"
+						style="margin-top: 20px;"
+					>
+						退出系统
+					</button>
+				</div>
+			</div>
+
+			<div id="adminBox" class="hidden">
+				<div class="card">
+					<div class="card-title">国家财政总览</div>
+					<div class="balance-display" id="adminHeader">0</div>
+					<div class="balance-sub">国库总储备</div>
+					<table>
+						<thead>
+							<tr>
+								<th>成员</th>
+								<th>余额</th>
+							</tr>
+						</thead>
+						<tbody id="adminTable"></tbody>
+					</table>
+				</div>
+
+				<div class="card">
+					<div class="card-title">中央调控</div>
+					<button class="btn" onclick="showIssue()">发薪</button>
+					<button
+						class="btn btn-danger"
+						onclick="showDeduct()"
+						style="margin-top: 10px;"
+					>
+						扣款
+					</button>
+					<button
+						class="btn btn-outline"
+						onclick="showMint()"
+						style="margin-top: 10px;"
+					>
+						发行货币
+					</button>
+					<button
+						class="btn btn-outline"
+						onclick="logout()"
+						style="margin-top: 20px;"
+					>
+						退出系统
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="modal" class="modal">
+			<div class="modal-content">
+				<h3 id="modalTitle">提示</h3>
+				<p id="modalText"></p>
+				<button onclick="closeModal()">确认</button>
+			</div>
+		</div>
+
+		<script>
+			// 直连Supabase数据库
+			const SUPABASE_URL = "https://dzejswzakxdfaopwatjo.supabase.co";
+			const SUPABASE_KEY = "sb_publishable_16By6qbOVt64AHCvC_9bIw_tzW5q2eR";
+
+			let currentUser = "";
+
+			function showAlert(text) {
+			    document.getElementById('modalText').innerText = text;
+			    document.getElementById('modal').style.display = 'flex';
+			}
+			function closeModal() {
+			    document.getElementById('modal').style.display = 'none';
+			}
+
+			// 读取云端数据
+			function getCloudData(callback) {
+			    let xhr = new XMLHttpRequest();
+			    xhr.open("GET", SUPABASE_URL + "/rest/v1/accounts?select=*", true);
+			    xhr.setRequestHeader("apikey", SUPABASE_KEY);
+			    xhr.setRequestHeader("Authorization", "Bearer " + SUPABASE_KEY);
+			    xhr.onreadystatechange = function () {
+			        if (xhr.readyState === 4 && xhr.status === 200) {
+			            callback(JSON.parse(xhr.responseText));
+			        }
+			    };
+			    xhr.send();
+			}
+
+			// 修改云端数据
+			function updateCloud(user, newBalance, callback) {
+			    let xhr = new XMLHttpRequest();
+			    xhr.open("PATCH", SUPABASE_URL + "/rest/v1/accounts?username=eq." + user, true);
+			    xhr.setRequestHeader("apikey", SUPABASE_KEY);
+			    xhr.setRequestHeader("Authorization", "Bearer " + SUPABASE_KEY);
+			    xhr.setRequestHeader("Content-Type", "application/json");
+			    xhr.onreadystatechange = function () {
+			        if (xhr.readyState === 4 && xhr.status === 204) {
+			            if (callback) callback();
+			        }
+			    };
+			    xhr.send(JSON.stringify({ balance: newBalance }));
+			}
+
+			function login() {
+			    let key = document.getElementById('loginKey').value;
+			    if (!key) { showAlert("请输入密钥！"); return; }
+
+			    getCloudData(function (data) {
+			        let found = false;
+			        for (let i = 0; i < data.length; i++) {
+			            if (data[i].password === key) {
+			                currentUser = data[i].username;
+			                found = true;
+			                break;
+			            }
+			        }
+			        if (!found) { showAlert("密钥错误！"); return; }
+
+			        document.getElementById('loginBox').classList.add('hidden');
+			        if (currentUser === "1号" || currentUser === "2号") {
+			            showAdmin(data);
+			        } else {
+			            showUser(data, currentUser);
+			        }
+			    });
+			}
+
+			function showUser(data, name) {
+			    document.getElementById('userBox').classList.remove('hidden');
+			    for (let i = 0; i < data.length; i++) {
+			        if (data[i].username === name) {
+			            document.getElementById('balance').innerText = data[i].balance;
+			        }
+			    }
+			    let opts = "";
+			    for (let i = 0; i < data.length; i++) {
+			        if (data[i].username !== name) {
+			            opts += `<option value="${data[i].username}">${data[i].username}</option>`;
+			        }
+			    }
+			    document.getElementById('transferTo').innerHTML = opts;
+			}
+
+			function showAdmin(data) {
+			    document.getElementById('adminBox').classList.remove('hidden');
+			    let html = "";
+			    let treasury = 0;
+			    for (let i = 0; i < data.length; i++) {
+			        html += `<tr><td>${data[i].username}</td><td>${data[i].balance}</td></tr>`;
+			        if (data[i].username === "国库") treasury = data[i].balance;
+			    }
+			    document.getElementById('adminTable').innerHTML = html;
+			    document.getElementById('adminHeader').innerText = treasury;
+			}
+
+			function doTransfer() {
+			    let pwd = document.getElementById('transferPwd').value;
+			    if (currentUser !== "1号" && currentUser !== "2号" && pwd !== "185") {
+			        showAlert("密码错误！");
+			        return;
+			    }
+			    let to = document.getElementById('transferTo').value;
+			    let amt = parseInt(document.getElementById('transferAmount').value);
+			    if (!amt || amt <= 0) { showAlert("金额错误！"); return; }
+
+			    getCloudData(function (data) {
+			        let userBal = 0, targetBal = 0;
+			        for (let i = 0; i < data.length; i++) {
+			            if (data[i].username === currentUser) userBal = data[i].balance;
+			            if (data[i].username === to) targetBal = data[i].balance;
+			        }
+			        if (userBal < amt) { showAlert("余额不足！"); return; }
+
+			        updateCloud(currentUser, userBal - amt, function() {
+			            updateCloud(to, targetBal + amt, function() {
+			                showAlert("转账成功！");
+			                setTimeout(function() { getCloudData(showAdmin); }, 500);
+			            });
+			        });
+			    });
+			}
+
+			function showIssue() {
+			    let pwd = prompt("请输入发薪密码（185）:");
+			    if (pwd !== "185") { showAlert("发薪密码错误！"); return; }
+			    let to = prompt("请输入发薪对象（如：3号）:");
+			    let amt = parseInt(prompt("请输入金额:"));
+
+			    getCloudData(function (data) {
+			        let t = 0, tb = 0;
+			        for (let i = 0; i < data.length; i++) {
+			            if (data[i].username === "国库") t = data[i].balance;
+			            if (data[i].username === to) tb = data[i].balance;
+			        }
+			        if (t < amt) { showAlert("国库资金不足！"); return; }
+			        updateCloud("国库", t - amt, function() {
+			            updateCloud(to, tb + amt, function() { showAlert("发薪成功！"); setTimeout(function(){ getCloudData(showAdmin); }, 500); });
+			        });
+			    });
+			}
+
+			function showDeduct() {
+			    let pwd = prompt("请输入扣款密码:");
+			    if ((currentUser === "1号" && pwd !== "10086") || (currentUser === "2号" && pwd !== "45645")) {
+			        showAlert("扣款密码错误！");
+			        return;
+			    }
+			    let to = prompt("请输入扣款对象（如：6号）:");
+			    let amt = parseInt(prompt("请输入金额:"));
+
+			    getCloudData(function (data) {
+			        let tb = 0, t = 0;
+			        for (let i = 0; i < data.length; i++) {
+			            if (data[i].username === to) tb = data[i].balance;
+			            if (data[i].username === "国库") t = data[i].balance;
+			        }
+			        if (tb < amt) { showAlert("对方余额不足！"); return; }
+			        updateCloud(to, tb - amt, function() {
+			            updateCloud("国库", t + amt, function() { showAlert("扣款成功！"); setTimeout(function(){ getCloudData(showAdmin); }, 500); });
+			        });
+			    });
+			}
+
+			function showMint() {
+			    let pwd = prompt("请输入发行密码（33333）:");
+			    if (pwd !== "33333") { showAlert("发行密码错误！"); return; }
+			    let amt = parseInt(prompt("请输入发行金额:"));
+			    if (!amt || amt <= 0) { showAlert("金额错误！"); return; }
+
+			    getCloudData(function (data) {
+			        let t = 0;
+			        for (let i = 0; i < data.length; i++) {
+			            if (data[i].username === "国库") t = data[i].balance;
+			        }
+			        updateCloud("国库", t + amt, function() { showAlert("发行成功！"); setTimeout(function(){ getCloudData(showAdmin); }, 500); });
+			    });
+			}
+
+			function logout() { location.reload(); }
+		</script>
+	</body>
+</html>
